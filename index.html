@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validation Form</title>
+    <link rel="stylesheet" href="./assest/css/style.css">
+    <link rel="stylesheet" href="./assest/icon/fontawesome-free-6.1.1-web/css/all.min.css">
+</head>
+<body>
+
+    <div class="main">
+        <form action="" method="POST" class="form" id="form-1">
+            <h3 class="heading">Đăng ký tài khoản mới</h3>
+            <p class="desc">Cùng nhau học lập trình miễn phí</p>
+
+            <div class="spacer"></div>
+
+            <div class="form-group">
+                <label for="password_confirmation" class="form-label">Giới tính</label>
+                <div class="gender-block">
+                    <div>
+                        <input type="radio" name="gender" class="form-control" id="gender--male" value="male">
+                        <label for="gender--male">
+                            Nam
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" name="gender" class="form-control" id="gender--female" value="female">
+                        <label for="gender--female">
+                            Nữ
+                        </label>
+                    </div>
+                    <div>
+                        <input type="radio" name="gender" class="form-control" id="gender--other" value="other">
+                        <label for="gender--other">
+                            Khác
+                        </label>
+                    </div>
+                </div>
+                <div class="form-message">
+                    <i class="fa-solid fa-triangle-exclamation form-message__icon"></i>
+                    <span class="form-message__text"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="fullname" class="form-label">Tên đầy đủ</label>
+                <input type="text" id="fullname" name="fullname" placeholder="Eg: Thái Phạm Hữu Thắng">
+                <div class="form-message">
+                    <i class="fa-solid fa-triangle-exclamation form-message__icon"></i>
+                    <span class="form-message__text">
+                        Vui lòng nhập trường này
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="email" class="form-label">Email của bạn</label>
+                <input type="text" id="email" name="email" placeholder="Eg: abc123@gmail.com">
+                <div class="form-message">
+                    <i class="fa-solid fa-triangle-exclamation form-message__icon"></i>
+                    <span class="form-message__text"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password" class="form-label">Mật khẩu</label>
+                <input type="password" id="password" name="password" placeholder="Eg: matkhau123">
+                <div class="form-message">
+                    <i class="fa-solid fa-triangle-exclamation form-message__icon"></i>
+                    <span class="form-message__text"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password_confirmation" class="form-label">Xác nhận mật khẩu</label>
+                <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Eg: matkhau123">
+                <div class="form-message">
+                    <i class="fa-solid fa-triangle-exclamation form-message__icon"></i>
+                    <span class="form-message__text"></span>
+                </div>
+            </div>
+
+            <button class="form-submit">Đăng ký</button>
+
+        </form>
+    </div>
+
+
+    <script src="./validation.js"></script>
+    <script>
+        // Output want to received
+        Validator({
+            form: '#form-1',
+            errorSelector: '.form-message__text',
+            rules: [
+                Validator.isRequired('input[name="gender"]'),
+                Validator.isRequired('#fullname'),
+                Validator.isRequired('#email'),
+                Validator.isEmail('#email', 'Email không hợp lệ'),
+                Validator.isRequired('#password'),
+                Validator.minLength('#password', 6),
+                Validator.isRequired('#password_confirmation'),
+                Validator.minLength('#password_confirmation', 6),
+                Validator.isConfirmed('#password_confirmation', 'Mật khẩu chưa trùng khớp', function () {
+                    var passwordValue = document.querySelector('#form-1 #password').value
+                    if(passwordValue) {
+                        return passwordValue
+                    }
+                }),
+            ],
+            onSubmit: function (data) {
+                console.log(data)
+            }
+        })
+
+    </script>
+</body>
+</html>
