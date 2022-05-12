@@ -51,7 +51,7 @@ function Validator(options) {
         if(formElement) {
             rules.forEach( function (rule) {
                 var inputElements = formElement.querySelectorAll(rule.selector)
-
+                console.log(1)
                 // Handle events on inputs
                 Array.from(inputElements).forEach(function (inputElement) {
                     var errorElement =  getParentElement(inputElement, '.form-group').querySelector(options.errorSelector)
@@ -137,7 +137,12 @@ Validator.isRequired = function (selector, message) {
     return {
         selector: selector,
         test: function (value) {
-            return value ? undefined : message || 'Vui lòng nhập trường này'
+            // While user fill in space
+            if(value.trim()) {
+                return undefined
+            } else {
+                return message || 'Vui lòng nhập trường này'
+            }
         }
     }
 }
