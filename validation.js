@@ -5,6 +5,8 @@ const $$ = document.querySelectorAll.bind(document)
 function Validator(options) {
 
     var selectorRules = {}
+    var formElement = $(options.form)
+    var rules = options.rules
 
     function getParentElement(element, formGroup) {
         while(element.parentElement) {
@@ -18,7 +20,7 @@ function Validator(options) {
 
     //Validate Form
     function validate (inputElement, rule) {
-        var errorElement = getParentElement(inputElement, '.form-group').querySelector(options.errorSelector)
+        var errorElement = inputElement.closest('.form-group').querySelector(options.errorSelector)
         var errorMessage
         var inputRules = selectorRules[rule.selector]
         // console.log(selectorRules[rule.selector])
@@ -37,30 +39,28 @@ function Validator(options) {
         }
         if(errorMessage) {
             errorElement.innerHTML = errorMessage;
-            getParentElement(inputElement, '.form-group').classList.add('invalid')
+            inputElement.closest('.form-group').classList.add('invalid')
         } else {
             errorElement.innerHTML = '';
-            getParentElement(inputElement, '.form-group').classList.remove('invalid')
+            inputElement.closest('.form-group').classList.remove('invalid')
         }
         return !errorMessage;
     }
 
     // Take form's element need validating
-    var formElement = $(options.form)
-    var rules = options.rules
         if(formElement) {
             rules.forEach( function (rule) {
                 var inputElements = formElement.querySelectorAll(rule.selector)
-                console.log(1)
                 // Handle events on inputs
                 Array.from(inputElements).forEach(function (inputElement) {
-                    var errorElement =  getParentElement(inputElement, '.form-group').querySelector(options.errorSelector)
+                    // console.log(inputElement)
+                    var errorElement =  inputElement.closest('.form-group').querySelector(options.errorSelector)
                     if(inputElement) {
-                        var isInvalid = getParentElement(inputElement, '.form-group').classList.contains("invalid")
+                        var isInvalid = inputElement.closest('.form-group').classList.contains("invalid")
                         // console.log(isInvalid)
                         inputElement.oninput = function () {
                             // if(isInvalid) {
-                                getParentElement(inputElement, '.form-group').classList.remove('invalid')
+                                inputElement.closest('.form-group').classList.remove('invalid')
                                 errorElement.innerHTML = ''
                             // }
                         }

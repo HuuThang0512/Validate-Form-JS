@@ -1,6 +1,8 @@
 
 
-function Validate(formSelector, option = {}) {
+function Validate(formSelector) {
+    var _this = this;
+    var formRules = {};
 
     function getParent(element, selector) {
         while(element.parentElement) {
@@ -35,8 +37,6 @@ function Validate(formSelector, option = {}) {
             }
         },
     }
-
-    var formRules = {};
 
     // Take form element in Dom by 'formSelector'
     var formElement = document.querySelector(formSelector)
@@ -104,7 +104,6 @@ function Validate(formSelector, option = {}) {
                 e.preventDefault()
                 var user = {}
                 var isValid = true
-                // var inputs = formElement.querySelectorAll('[name][rules]')
                 for(var input of inputs) {
                     if (handleValidate({ target: input })) {
                         isValid = false;
@@ -116,12 +115,10 @@ function Validate(formSelector, option = {}) {
                     }
                 }
                 if(isValid) {
-                    if(typeof option.onSubmit === 'function') {
-                        option.onSubmit(user)
+                    if(typeof _this.onSubmit === 'function') {
+                        _this.onSubmit(user)
                     }
                 }
-                console.log(isValid)
-               
             }
         })
         
